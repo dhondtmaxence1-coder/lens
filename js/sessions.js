@@ -76,7 +76,9 @@ export function createSession(films, index) {
 }
 
 export function computeTotalDuration(films) {
-  return films.reduce((total, film) => {
+  const totalDuration = films.reduce((total, film) => {
     return total + film.durationMinutes;
   }, 0);
+
+  return Math.round(totalDuration);
 }

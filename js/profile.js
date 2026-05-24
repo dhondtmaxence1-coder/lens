@@ -25,10 +25,60 @@ export function createInitialUserTarget(userInputs) {
 }
 
 export function selectCalibrationFilms(films, count) {
-    const shuffledFilms = [...films].sort(() => Math.random() - 0.5);
+    const uniqueFilmsMap = new Map();
 
-    return shuffledFilms.slice(0, count);
+    films.forEach((film) => {
+        if (!uniqueFilmsMap.has(film.id)) {
+            uniqueFilmsMap.set(film.id, film);
+        }
+    });
+
+    const shuffledFilms = shuffleArray([...uniqueFilmsMap.values()]);
+    const selectedFilms = [];
+    const usedChoiceLines = new Set();
+
+    for (const film of shuffledFilms) {
+        const choiceLine = film.choiceLine || film.id;
+
+        if (usedChoiceLines.has(choiceLine)) {
+            continue;
+        }
+
+        selectedFilms.push(film);
+        usedChoiceLines.add(choiceLine);
+
+        if (selectedFilms.length === count) {
+            break;
+        }
+    }
+
+    return selectedFilms;
 }
+
+function shuffleArray(array) {
+    const shuffledArray = [...array];
+
+    for (let i = shuffledArray.length - 1; i > 0; i -= 1) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+
+        const temporaryValue = shuffledArray[i];
+        shuffledArray[i] = shuffledArray[randomIndex];
+        shuffledArray[randomIndex] = temporaryValue;
+    }
+
+    return shuffledArray;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 export function updateUserTargetWithChoice(userTarget, film, choice) {
     const direction = choice === "take" ? 1 : -1;

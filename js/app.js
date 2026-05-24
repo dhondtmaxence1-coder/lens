@@ -59,14 +59,15 @@ async function initApp() {
   }
 }
 
+
 function handleStart(userInputs) {
   state.userInputs = userInputs;
   state.userTarget = createInitialUserTarget(userInputs);
   console.log("Mode exécuté :", state.userTarget.resolvedMode);
 
   state.calibrationFilms = selectCalibrationFilms(
-  state.films,
-  APP_CONFIG.calibrationCardCount
+    state.films,
+    APP_CONFIG.calibrationCardCount
   );
 
   state.calibrationIndex = 0;

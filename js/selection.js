@@ -5,13 +5,14 @@ export function getFinalPool(scoredSessions, ratio) {
 }
 
 export function computeSessionWeight(session) {
-  return session.sessionScore ** 3;
+  return session.sessionScore ** 2;
 }
 
 export function weightedDraw(pool, count, excludedSessionIds = []) {
   const excludedSet = new Set(excludedSessionIds);
+
   const availablePool = pool.filter((session) => {
-    return !excludedSet.has(session.id);
+    return !excludedSet.has(getResultSignature(session));
   });
 
   const results = [];
@@ -22,11 +23,13 @@ export function weightedDraw(pool, count, excludedSessionIds = []) {
 
     results.push(selectedSession);
 
-    const selectedIndex = remainingPool.findIndex((session) => {
-      return session.id === selectedSession.id;
-    });
+  const selectedSignature = getResultSignature(selectedSession);
 
-    remainingPool.splice(selectedIndex, 1);
+    for (let i = remainingPool.length - 1; i >= 0; i -= 1) {
+      if (getResultSignature(remainingPool[i]) === selectedSignature) {
+        remainingPool.splice(i, 1);
+      }
+    }
   }
 
   return results;
@@ -54,10 +57,8 @@ export function pickOneWeighted(pool) {
   return pool[pool.length - 1];
 }
 
-export function rerollResults(finalPool, currentResults, count) {
-  const currentResultIds = currentResults.map((session) => session.id);
-
-  return weightedDraw(finalPool, count, currentResultIds);
+export function rerollResults(finalPool, excludedSignatures, count) {
+  return weightedDraw(finalPool, count, excludedSignatures);
 }
 
 export function selectSingleFilmResults(scoredFilms, count) {
@@ -70,4 +71,15 @@ export function selectSingleFilmResults(scoredFilms, count) {
       scoringDetails: film.scoringDetails
     };
   });
+}
+
+export function getResultSignature(result) {
+  return result.films
+    .map((film) => film.id)
+    .sort()
+    .join("|");
+}
+
+export function getSingleFilmSignature(film) {
+  return film.id;
 }

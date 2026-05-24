@@ -255,7 +255,7 @@ function renderCompactFilmItem(film, index) {
         textContent: film.title
       }),
       createUIElement("p", {
-        textContent: `${film.durationMinutes} min · ${film.genres.join(", ")}`
+        textContent: `${Math.round(film.durationMinutes)} min · ${film.genres.join(", ")}`
       })
     ]
   });
@@ -390,7 +390,7 @@ function renderDetailedFilmItem(film, index) {
           }),
           createUIElement("p", {
             className: "film-meta",
-            textContent: `${film.durationMinutes} min · ${film.genres.join(", ")}`
+            textContent: `${Math.round(film.durationMinutes)} min · ${film.genres.join(", ")}`
           }),
           createUIElement("p", {
             className: "film-summary",

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <title>Lens</title>
 
@@ -21,11 +21,18 @@
   <main class="app-shell">
     <section data-screen="home">
         <div class="home-card">
-            <div class="brand">
+            <div class="brand brand-horizontal">
                 <img src="icons/icon-192.png" alt="Lens icon" class="brand-icon" />
-                <h1>Lens</h1>
-                <p>Short films, brought into focus.</p>
+
+                <div>
+                    <h1>Lens</h1>
+                    <p>Short films, brought into focus.</p>
+                </div>
             </div>
+
+            <p class="home-intro">
+                Tell Lens what you feel like watching, and get a short film session built for your time.
+            </p>
 
             <form id="home-form" class="home-form">
                 <label class="field">
@@ -83,6 +90,7 @@
                 Start
                 </button>
             </form>
+
         </div>
     </section>
 
@@ -123,13 +131,14 @@
                 </button>
             </div>
 
-            <button id="reroll-button" type="button" class="ghost-button">
-            Reroll
-            </button>
-
-            <button id="restart-button" type="button" class="ghost-button">
-            Change settings
-            </button>
+            <div class="result-secondary-actions">
+                <button id="restart-button" type="button" class="ghost-button">
+                    Change settings
+                </button>
+                <button id="reroll-button" type="button" class="ghost-button">
+                    Reroll
+                </button>
+            </div>
         </div>
     </section>
 
